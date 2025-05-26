@@ -17,9 +17,6 @@ import io.flutter.plugin.common.*
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import java.lang.ref.WeakReference
-import com.hiennv.flutter_callkit_incoming.CallkitIncomingActivity
-
-
 
 
 /** FlutterCallkitIncomingPlugin */
@@ -152,7 +149,6 @@ class FlutterCallkitIncomingPlugin : FlutterPlugin, MethodCallHandler, ActivityA
                 "showCallkitIncoming" -> {
                     val data = Data(call.arguments() ?: HashMap())
                     data.from = "notification"
-                    val testString = "test String"
                     //send BroadcastReceiver
                     context?.sendBroadcast(
                             CallkitIncomingBroadcastReceiver.getIntentIncoming(
@@ -163,22 +159,24 @@ class FlutterCallkitIncomingPlugin : FlutterPlugin, MethodCallHandler, ActivityA
 
                     result.success("OK")
                 }
+
                 "showCallkitIncomingDirect" -> {
+                    val data = Data(call.arguments() ?: HashMap())
+                    data.from = "notification"
+
+                    //send BroadcastReceiver
                     context?.sendBroadcast(
                         CallkitIncomingBroadcastReceiver.getIntentIncoming(
                             requireNotNull(context),
-                            data.toBundle()
+                            data.toBundle().apply {
+                                putBoolean("fromUi",true)
+                            }
                         )
                     )
 
                     result.success("OK")
-
-
-                    }
-                    result.success("OK")
-
-
                 }
+
 
                 "showCallkitIncomingSilently" -> {
                     val data = Data(call.arguments() ?: HashMap())

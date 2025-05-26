@@ -84,7 +84,7 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
         when (action) {
             "${context.packageName}.${CallkitConstants.ACTION_CALL_INCOMING}" -> {
                 try {
-                    val fromUi = data.getString("fromUi","no")=="yes"
+                    val fromUi = data.getBoolean("fromUi",false)
                     if (fromUi) {
                         sendEventFlutter(CallkitConstants.ACTION_CALL_INCOMING, data)
                         addCall(context, Data.fromBundle(data))
