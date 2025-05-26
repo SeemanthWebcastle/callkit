@@ -92,7 +92,9 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
                         callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(callIntent)
                     }
-                    callkitNotificationManager.showIncomingNotification(data)
+                    if (fromUi==false) {
+                        callkitNotificationManager.showIncomingNotification(data)
+                    }
                     sendEventFlutter(CallkitConstants.ACTION_CALL_INCOMING, data)
                     addCall(context, Data.fromBundle(data))
                     if (callkitNotificationManager.incomingChannelEnabled()) {
