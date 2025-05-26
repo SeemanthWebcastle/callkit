@@ -17,6 +17,8 @@ import io.flutter.plugin.common.*
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import java.lang.ref.WeakReference
+import com.hiennv.flutter_callkit_incoming.CallkitIncomingActivity
+
 
 
 
@@ -163,13 +165,15 @@ class FlutterCallkitIncomingPlugin : FlutterPlugin, MethodCallHandler, ActivityA
                 }
                 "showCallkitIncomingDirect" -> {
                     context?.let{
-                        val intent =  Intent(context, CallkitIncomingBroadcastReceiver::class.java).apply {
+                        val intent =  Intent(context, CallkitIncomingActivity::class.java).apply {
                             action = "${it.packageName}.${CallkitConstants.ACTION_CALL_INCOMING}"
                             putExtra(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA, data)
 
                         }
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+
                         it.startActivity(intent)
                         print("new starting point")
 
