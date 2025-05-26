@@ -19,6 +19,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 import java.lang.ref.WeakReference
 
 
+
 /** FlutterCallkitIncomingPlugin */
 class FlutterCallkitIncomingPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.RequestPermissionsResultListener {
     companion object {
@@ -158,6 +159,21 @@ class FlutterCallkitIncomingPlugin : FlutterPlugin, MethodCallHandler, ActivityA
                     )
 
                     result.success("OK")
+                }
+                "showCallkitIncomingDirect" -> {
+                    context?.let{
+                        val intent =  Intent(context, CallkitIncomingBroadcastReceiver::class.java).apply {
+                            action = "${it.packageName}.${CallkitConstants.ACTION_CALL_INCOMING}"
+                            putExtra(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA, data)
+
+                        }
+                        it.startActivity(intent)
+                        print("new starting point")
+
+
+                    }
+
+
                 }
 
                 "showCallkitIncomingSilently" -> {
