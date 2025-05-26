@@ -168,6 +168,8 @@ class FlutterCallkitIncomingPlugin : FlutterPlugin, MethodCallHandler, ActivityA
                             putExtra(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA, data)
 
                         }
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         it.startActivity(intent)
                         print("new starting point")
 
