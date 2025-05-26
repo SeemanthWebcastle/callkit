@@ -164,18 +164,14 @@ class FlutterCallkitIncomingPlugin : FlutterPlugin, MethodCallHandler, ActivityA
                     result.success("OK")
                 }
                 "showCallkitIncomingDirect" -> {
-                    context?.let{
-                        val intent =  Intent(context, CallkitIncomingActivity::class.java).apply {
-                            action = "${it.packageName}.${CallkitConstants.ACTION_CALL_INCOMING}"
-                            putExtra(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA, data)
+                    context?.sendBroadcast(
+                        CallkitIncomingBroadcastReceiver.getIntentIncoming(
+                            requireNotNull(context),
+                            data.toBundle()
+                        )
+                    )
 
-                        }
-
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-
-                        it.startActivity(intent)
-                        print("new starting point")
+                    result.success("OK")
 
 
                     }

@@ -84,6 +84,14 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
         when (action) {
             "${context.packageName}.${CallkitConstants.ACTION_CALL_INCOMING}" -> {
                 try {
+                    val fromUi = data.getString("fromUi","no")=="yes"
+                    if (fromUi) {
+                        sendEventFlutter(CallkitConstants.ACTION_CALL_INCOMING, data)
+                        addCall(context, Data.fromBundle(data))
+                        val callIntent = CallkitIncomingActivity.getIntent(context, data)
+                        callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        context.startActivity(callIntent)
+                    }
                     callkitNotificationManager.showIncomingNotification(data)
                     sendEventFlutter(CallkitConstants.ACTION_CALL_INCOMING, data)
                     addCall(context, Data.fromBundle(data))
