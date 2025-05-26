@@ -46,11 +46,7 @@ class CallkitIncomingActivity : Activity() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
 
-        fun getIntentSingle(context:Context,data:Bundle) = Intent(CallkitConstants.ACTION_CALL_INCOMING).apply {
-            action = "${context.packageName}.${CallkitConstants.ACTION_CALL_INCOMING}"
-            putExtra(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA, data)
-            setflags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        }
+
 
         fun getIntentEnded(context: Context, isAccepted: Boolean): Intent {
             val intent = Intent("${context.packageName}.${ACTION_ENDED_CALL_INCOMING}")
