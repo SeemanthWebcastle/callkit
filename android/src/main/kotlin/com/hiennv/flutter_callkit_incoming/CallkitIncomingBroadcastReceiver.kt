@@ -104,8 +104,11 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
 
                         sendEventFlutter(CallkitConstants.ACTION_CALL_INCOMING, data)
                         addCall(context, Data.fromBundle(data))
-                        var durationleft = Duration.between(notificationtime,Instant.now()).seconds
-                        data.putLong(CallkitConstants.EXTRA_CALLKIT_DURATION,durationleft)
+                        if (notificationtime!=null) {
+                            var durationleft =
+                                Duration.between(notificationtime, Instant.now()).seconds
+                            data.putLong(CallkitConstants.EXTRA_CALLKIT_DURATION, durationleft)
+                        }
                         val callIntent = CallkitIncomingActivity.getIntent(context, data)
                         callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(callIntent)
