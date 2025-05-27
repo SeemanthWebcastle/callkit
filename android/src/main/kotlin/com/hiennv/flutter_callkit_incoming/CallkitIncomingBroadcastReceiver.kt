@@ -85,6 +85,12 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
             "${context.packageName}.${CallkitConstants.ACTION_CALL_INCOMING}" -> {
                 try {
                     val fromUi = data.getBoolean("fromUi",false)
+
+                    //get duration from data
+                    //get EXTRA_CALL_KIT_DURATION from string data
+                    //compare and differtiate and update the existing call
+                    //
+
                     if (fromUi) {
                         sendEventFlutter(CallkitConstants.ACTION_CALL_INCOMING, data)
                         addCall(context, Data.fromBundle(data))
@@ -92,17 +98,20 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
                         callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(callIntent)
                     }
-                    if (fromUi==false) {
+                    if (!fromUi) {
                         callkitNotificationManager.showIncomingNotification(data)
-                    }
-                    sendEventFlutter(CallkitConstants.ACTION_CALL_INCOMING, data)
-                    addCall(context, Data.fromBundle(data))
-                    if (callkitNotificationManager.incomingChannelEnabled()) {
-                        val soundPlayerServiceIntent =
+                        sendEventFlutter(CallkitConstants.ACTION_CALL_INCOMING, data)
+                        addCall(context, Data.fromBundle(data))
+                        if (callkitNotificationManager.incomingChannelEnabled()) {
+                            val soundPlayerServiceIntent =
                                 Intent(context, CallkitSoundPlayerService::class.java)
-                        soundPlayerServiceIntent.putExtras(data)
-                        context.startService(soundPlayerServiceIntent)
+                            soundPlayerServiceIntent.putExtras(data)
+                            context.startService(soundPlayerServiceIntent)
+                        }
                     }
+
+
+
                 } catch (error: Exception) {
                     Log.e(TAG, null, error)
                 }
