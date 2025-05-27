@@ -7,8 +7,16 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.RequiresApi
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalTime
 
 class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    var notificationtime:Instant? = null
+
 
     companion object {
         private const val TAG = "CallkitIncomingReceiver"
@@ -76,6 +84,7 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingPermission")
     override fun onReceive(context: Context, intent: Intent) {
         val callkitNotificationManager = CallkitNotificationManager(context)
@@ -92,13 +101,18 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
                     //
 
                     if (fromUi) {
+
                         sendEventFlutter(CallkitConstants.ACTION_CALL_INCOMING, data)
                         addCall(context, Data.fromBundle(data))
+                        var durationleft = Duration.between(notificationtime,Instant.now()).seconds
+                        data.putLong(CallkitConstants.EXTRA_CALLKIT_DURATION,durationleft)
                         val callIntent = CallkitIncomingActivity.getIntent(context, data)
                         callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(callIntent)
                     }
                     if (!fromUi) {
+                        notificationtime = Instant.now()
+
                         callkitNotificationManager.showIncomingNotification(data)
                         sendEventFlutter(CallkitConstants.ACTION_CALL_INCOMING, data)
                         addCall(context, Data.fromBundle(data))
