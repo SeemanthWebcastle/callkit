@@ -82,8 +82,8 @@ class ExampleService: Service() {
         val notificationBuilder =
             NotificationCompat
                 .Builder(this, "CALL_FOREGROUND_SERVICE")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("agora_rtc_engine_example")
+                .setSmallIcon(android.R.drawable.ic_menu_call)
+                .setContentTitle("Call in Progress")
                 .setContentText("Connecting...")
                 .setWhen(System.currentTimeMillis())
                 .setPriority(NotificationCompat.PRIORITY_LOW)
@@ -101,7 +101,7 @@ class ExampleService: Service() {
     }
 
     private fun getContentIntent(): PendingIntent? {
-        val intent = Intent(this, MainActivity::class.java).apply {
+        val intent = Intent(this, CallkitIncomingActivity::class.java).apply {
             action = "NOTIFICATION_OPEN"
         }
         return PendingIntent.getActivity(
