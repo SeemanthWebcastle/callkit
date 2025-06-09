@@ -55,5 +55,11 @@
             android:exported="true"
             android:name="com.hiennv.flutter_callkit_incoming.CallkitSoundPlayerService"/>
 
+        <service
+            android:name=".ExampleService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback|microphone"
+            android:stopWithTask="false" />
+
     </application>
 </manifest>

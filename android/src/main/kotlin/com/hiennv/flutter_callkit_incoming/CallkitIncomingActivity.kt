@@ -1,5 +1,6 @@
 package com.hiennv.flutter_callkit_incoming
 
+import com.hiennv.flutter_callkit_incoming.ExampleService
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.KeyguardManager
@@ -297,6 +298,7 @@ class CallkitIncomingActivity : Activity() {
 
     private fun onAcceptClick() {
         val data = intent.extras?.getBundle(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA)
+        ExampleService.startDaemonService(this.applicationContext)
         val acceptIntent = TransparentActivity.getIntent(this, CallkitConstants.ACTION_CALL_ACCEPT, data)
         startActivity(acceptIntent)
 

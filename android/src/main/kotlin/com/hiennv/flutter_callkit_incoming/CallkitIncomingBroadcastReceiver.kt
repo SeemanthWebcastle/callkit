@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalTime
+import com.hiennv.flutter_callkit_incoming.ExampleService
 
 class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
 
@@ -174,6 +175,7 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
                     context.stopService(Intent(context, CallkitSoundPlayerService::class.java))
                     callkitNotificationManager.clearIncomingNotification(data, false)
                     removeCall(context, Data.fromBundle(data))
+                    ExampleService.stopDaemonService(context)
                 } catch (error: Exception) {
                     Log.e(TAG, null, error)
                 }
